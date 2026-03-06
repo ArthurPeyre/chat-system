@@ -10,6 +10,9 @@
     │   │   ├── Message.java
     │   │   └── ChatRoom.java
     │   │
+    │   ├── ClientMain.java
+    │   ├── ServerMain.java
+    │   │
     │   ├── viewmodel/
     │   │   ├── MessageViewModel.java
     │   │   └── UserViewModel.java
