@@ -13,4 +13,51 @@ public class Message {
     private LocalDateTime timestamp;
     private TrayIcon.MessageType type; // TEXT, JOIN, LEAVE
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    public ChatRoom getRoom() {
+        return room;
+    }
+
+    public void setRoom(ChatRoom room) {
+        this.room = room;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public TrayIcon.MessageType getType() {
+        return type;
+    }
+
+    public void setType(TrayIcon.MessageType type) {
+        this.type = type;
+    }
 }
