@@ -13,6 +13,13 @@ public class Message {
     private LocalDateTime timestamp;
     private TrayIcon.MessageType type; // TEXT, JOIN, LEAVE
 
+    public Message(UUID uuid, String content, User user, LocalDateTime now) {
+        this.id = uuid;
+        this.content = content;
+        this.sender = user;
+        this.timestamp = now;
+    }
+
     public UUID getId() {
         return id;
     }

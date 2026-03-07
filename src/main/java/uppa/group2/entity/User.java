@@ -8,6 +8,10 @@ public class User {
     private String username;
     private String status;
 
+    public User(String username) {
+        this.username = username;
+    }
+
     public UUID getId() {
         return id;
     }
