@@ -2,6 +2,7 @@ package uppa.group2.service;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import io.github.cdimascio.dotenv.Dotenv;
 import uppa.group2.entity.Message;
 import uppa.group2.viewmodel.MessageViewModel;
 
@@ -15,8 +16,9 @@ import java.util.stream.Collectors;
 
 public class MessageService {
 
+    static Dotenv dotenv = Dotenv.load();
     private final List<Message> history = new ArrayList<>();
-    private static final String FILE_PATH = "D:/Formations/L3_NEC/server-data/messages.json";
+    private static final String FILE_PATH = dotenv.get("SERVER_DATA");
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>)
                     (src, typeOfSrc, context) -> new JsonPrimitive(src.toString()))
