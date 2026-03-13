@@ -1,6 +1,11 @@
 package uppa.group2.ui;
 
-import uppa.group2.*;
+import uppa.group2.core.MessageListener;
+import uppa.group2.model.Message;
+import uppa.group2.model.Peer;
+import uppa.group2.network.P2PNode;
+import uppa.group2.util.FileUtils;
+import uppa.group2.util.NetworkUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

@@ -1,4 +1,8 @@
-package uppa.group2;
+package uppa.group2.network;
+
+import uppa.group2.util.Logger;
+import uppa.group2.model.Message;
+import uppa.group2.model.Peer;
 
 import java.io.*;
 import java.net.Socket;

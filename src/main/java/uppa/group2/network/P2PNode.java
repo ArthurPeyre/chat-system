@@ -1,6 +1,14 @@
-package uppa.group2;
+package uppa.group2.network;
+
+import uppa.group2.util.Logger;
+import uppa.group2.util.NetworkUtils;
+import uppa.group2.core.MessageListener;
+import uppa.group2.core.PeerRegistry;
+import uppa.group2.model.Message;
+import uppa.group2.model.Peer;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -44,7 +52,7 @@ public class P2PNode {
      * Démarre le serveur d'écoute.
      */
     public void start() throws IOException {
-        serverSocket = new ServerSocket(localPort);
+        serverSocket = new ServerSocket(localPort, 50, InetAddress.getByName("0.0.0.0"));
         running = true;
         Logger.info("Serveur démarré sur " + localHost + ":" + localPort);
 

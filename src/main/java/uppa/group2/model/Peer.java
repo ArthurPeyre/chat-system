@@ -1,4 +1,4 @@
-package uppa.group2;
+package uppa.group2.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

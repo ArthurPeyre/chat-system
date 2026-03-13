@@ -1,6 +1,6 @@
 package uppa.group2.ui;
 
-import uppa.group2.NetworkUtils;
+import uppa.group2.util.NetworkUtils;
 
 import javax.swing.*;
 import javax.swing.border.*;

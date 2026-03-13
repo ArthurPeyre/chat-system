@@ -1,7 +1,9 @@
-package uppa.group2.ui;
+package uppa.group2;
 
-import uppa.group2.Logger;
-import uppa.group2.P2PNode;
+import uppa.group2.network.P2PNode;
+import uppa.group2.ui.ChatWindow;
+import uppa.group2.ui.LoginDialog;
+import uppa.group2.util.Logger;
 
 import javax.swing.*;
 

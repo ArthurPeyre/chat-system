@@ -1,4 +1,4 @@
-package uppa.group2;
+package uppa.group2.util;
 
 import java.io.File;
 import java.io.IOException;

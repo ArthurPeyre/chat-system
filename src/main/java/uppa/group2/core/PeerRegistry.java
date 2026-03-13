@@ -1,4 +1,6 @@
-package uppa.group2;
+package uppa.group2.core;
+
+import uppa.group2.model.Peer;
 
 import java.util.ArrayList;
 import java.util.List;

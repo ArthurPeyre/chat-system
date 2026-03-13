@@ -1,4 +1,7 @@
-package uppa.group2;
+package uppa.group2.core;
+
+import uppa.group2.model.Message;
+import uppa.group2.model.Peer;
 
 public interface MessageListener {
     void onMessageReceived(Message message);
