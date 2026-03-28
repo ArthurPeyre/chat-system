@@ -15,8 +15,8 @@ public class Server extends Thread {
     private final ChatController controller;
     private ServerSocket serverSocket;
 
-    public Server(ChatController controller) {
-        this.port = 5000;
+    public Server(int port, ChatController controller) {
+        this.port = port;
         this.controller = controller;
     }
 
@@ -58,8 +58,9 @@ public class Server extends Thread {
         @Override
         public void run() {
             try (
-                ObjectInputStream in  = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())) {
+                ObjectInputStream in  = new ObjectInputStream(socket.getInputStream());
+                out.flush();
 
                 Object received = in.readObject();
 
@@ -73,7 +74,7 @@ public class Server extends Thread {
                             controller.handleDisconnect(message.getSender());
                             break;
 
-                        case TEXT:
+                        case TEXT, FILE:
                             controller.handleMessage(message);
                             break;
                     }

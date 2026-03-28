@@ -4,8 +4,11 @@ import uppa.group2.model.Message;
 import uppa.group2.model.User;
 import uppa.group2.network.Client;
 import uppa.group2.network.DiscoveryBroadcaster;
+import uppa.group2.network.DiscoveryListener;
 import uppa.group2.network.Server;
+import uppa.group2.view.ChatView;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -34,16 +37,24 @@ public class ChatController {
 
     public void start() {
         server.start();
+        new DiscoveryListener(6000, this).start();
         new DiscoveryBroadcaster(localUser, 6000).start();
         view.showConnectedUsers(connectedUsers);
     }
 
     public void handleDiscovery(User user) {
-        if (connectedUsers.contains(user) || user.equals(localUser)) return;
+        if (user.equals(localUser)) return;
 
         List<User> users = Client.sendConnectAndGetUsers(localUser, user.getHost(), user.getPort());
-        connectedUsers.addAll(users);
-        broadcastSystemMessage(Message.Type.CONNECT);
+        for (User u : users) {
+            if (!u.equals(localUser) && !connectedUsers.contains(u)) {
+                connectedUsers.add(u);
+            }
+        }
+        // Ajouter aussi le pair découvert lui-même s'il n'est pas déjà dans la liste
+        if (!connectedUsers.contains(user)) {
+            connectedUsers.add(user);
+        }
         view.showConnectedUsers(connectedUsers);
     }
 
@@ -54,14 +65,21 @@ public class ChatController {
 
     // Un nouveau pair se connecte : on lui renvoie la liste, on l'ajoute, on informe la view
     public void handleConnect(User user, ObjectOutputStream out) {
+        if (!connectedUsers.contains(user)) {
+            connectedUsers.add(user);
+        }
+
         try {
-            out.writeObject(new ArrayList<>(connectedUsers));
+            List<User> listToSend = connectedUsers.stream()
+                    .filter(u -> !u.equals(localUser))
+                    .collect(java.util.stream.Collectors.toList());
+            System.out.println(">>> Envoi liste : " + listToSend); // ← ajoute ce log
+            out.writeObject(listToSend);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        connectedUsers.add(user);
         view.showUserConnected(user);
         view.showConnectedUsers(connectedUsers);
     }
@@ -75,7 +93,11 @@ public class ChatController {
 
     // Réception d'un message texte
     public void handleMessage(Message message) {
-        view.showMessage(message);
+        if (message.getType() == Message.Type.FILE) {
+            view.showReceivedFile(message);
+        } else {
+            view.showMessage(message);
+        }
     }
 
     // -------------------------
@@ -86,6 +108,17 @@ public class ChatController {
     public void sendMessage(String content, List<User> recipients) {
         Message message = new Message(localUser, recipients, content, Message.Type.TEXT);
         new Client(message, recipients).start();
+    }
+
+    // Envoi d'un fichier
+    public void sendFile(File file, List<User> recipients) {
+        try {
+            byte[] fileData = java.nio.file.Files.readAllBytes(file.toPath());
+            Message message = new Message(localUser, recipients, file.getName(), fileData);
+            new Client(message, recipients).start();
+        } catch (IOException e) {
+            view.showError("Erreur lors de la lecture du fichier : " + e.getMessage());
+        }
     }
 
     // Déconnexion propre

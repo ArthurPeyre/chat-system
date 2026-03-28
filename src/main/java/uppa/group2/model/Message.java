@@ -11,6 +11,7 @@ public class Message implements Serializable {
     private User sender;
     private List<User> recipients;
     private String content;
+    private byte[] fileData;
     private LocalDateTime timestamp;
     private Type type;
 
@@ -22,9 +23,20 @@ public class Message implements Serializable {
         this.timestamp = LocalDateTime.now();
     }
 
+    // Constructeur fichier
+    public Message(User sender, List<User> recipients, String fileName, byte[] fileData) {
+        this.sender = sender;
+        this.recipients = recipients;
+        this.content = fileName;
+        this.fileData = fileData;
+        this.type = Type.FILE;
+        this.timestamp = LocalDateTime.now();
+    }
+
     public User getSender() { return sender; }
     public List<User> getRecipients() { return recipients; }
     public String getContent() { return content; }
+    public byte[] getFileData() { return fileData; }
     public LocalDateTime getTimestamp() { return timestamp; }
     public Type getType() { return type; }
 
