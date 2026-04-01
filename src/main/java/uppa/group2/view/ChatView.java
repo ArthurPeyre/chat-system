@@ -30,7 +30,7 @@ public class ChatView extends JFrame {
         userListModel = new DefaultListModel<>();
         userList = new JList<>(userListModel);
         userList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        userList.setBorder(BorderFactory.createTitledBorder("Utilisateurs connectés"));
+        userList.setBorder(BorderFactory.createTitledBorder("Connected Users"));
         JScrollPane userScroll = new JScrollPane(userList);
         userScroll.setPreferredSize(new Dimension(200, 0));
 
@@ -43,7 +43,7 @@ public class ChatView extends JFrame {
 
         // -- Zone de saisie et bouton d'envoi (bas) --
         messageField = new JTextField();
-        sendButton = new JButton("Envoyer");
+        sendButton = new JButton("Send");
         sendButton.addActionListener(e -> handleSend());
         messageField.addActionListener(e -> handleSend()); // Envoi avec Entrée
 
@@ -52,7 +52,7 @@ public class ChatView extends JFrame {
         inputPanel.add(messageField, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
 
-        JButton fileButton = new JButton("📎 Fichier");
+        JButton fileButton = new JButton("📎 Files");
         fileButton.addActionListener(e -> handleSendFile());
 
         inputPanel.add(fileButton, BorderLayout.WEST);
@@ -89,7 +89,7 @@ public class ChatView extends JFrame {
         List<User> selected = userList.getSelectedValuesList();
 
         if (content.isEmpty()) {
-            showError("Le message ne peut pas être vide.");
+            showError("Message can't be empty.");
             return;
         }
 
@@ -116,7 +116,7 @@ public class ChatView extends JFrame {
                 : selected;
 
         if (recipients.isEmpty()) {
-            showError("Aucun utilisateur connecté.");
+            showError("No users are currently connected.");
             return;
         }
 
@@ -137,7 +137,7 @@ public class ChatView extends JFrame {
     public void showMessage(Message message) {
         String sender;
         if (controller.getLocalUser().equals(message.getSender())) {
-            sender = "Vous";
+            sender = "You";
         } else {
             sender = message.getSender().getUsername();
         }
@@ -155,14 +155,14 @@ public class ChatView extends JFrame {
             byte[] fileData = message.getFileData();
             String sender = message.getSender().getUsername();
 
-            messageArea.append("📎 " + sender + " vous a envoyé : " + fileName + "\n");
+            messageArea.append("📎 " + sender + " sent you : " + fileName + "\n");
 
             // Affichage si image
             if (isImage(fileName)) {
                 ImageIcon icon = new ImageIcon(fileData);
                 Image scaled = icon.getImage().getScaledInstance(200, -1, Image.SCALE_SMOOTH);
                 JLabel imgLabel = new JLabel(new ImageIcon(scaled));
-                JOptionPane.showMessageDialog(this, imgLabel, "Image de " + sender, JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(this, imgLabel, "Image from " + sender, JOptionPane.PLAIN_MESSAGE);
             }
             // Affichage si texte
             else if (isText(fileName)) {
@@ -171,13 +171,13 @@ public class ChatView extends JFrame {
                 textArea.setEditable(false);
                 JScrollPane scroll = new JScrollPane(textArea);
                 scroll.setPreferredSize(new Dimension(400, 300));
-                JOptionPane.showMessageDialog(this, scroll, "Fichier texte de " + sender, JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(this, scroll, "Text file from " + sender, JOptionPane.PLAIN_MESSAGE);
             }
 
             // Proposer la sauvegarde dans tous les cas
             int choice = JOptionPane.showConfirmDialog(this,
-                    "Sauvegarder \"" + fileName + "\" ?",
-                    "Fichier reçu", JOptionPane.YES_NO_OPTION);
+                    "Save \"" + fileName + "\" ?",
+                    "File received", JOptionPane.YES_NO_OPTION);
 
             if (choice == JOptionPane.YES_OPTION) {
                 JFileChooser chooser = new JFileChooser();
@@ -185,9 +185,9 @@ public class ChatView extends JFrame {
                 if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                     try (FileOutputStream fos = new FileOutputStream(chooser.getSelectedFile())) {
                         fos.write(fileData);
-                        messageArea.append("✅ Fichier sauvegardé.\n");
+                        messageArea.append("File saved.\n");
                     } catch (IOException e) {
-                        showError("Erreur lors de la sauvegarde : " + e.getMessage());
+                        showError("Error during backup : " + e.getMessage());
                     }
                 }
             }
@@ -208,19 +208,19 @@ public class ChatView extends JFrame {
 
     public void showUserConnected(User user) {
         SwingUtilities.invokeLater(() ->
-                messageArea.append("*** " + user.getUsername() + " a rejoint le chat ***\n")
+                messageArea.append("*** " + user.getUsername() + " joined the chat ***\n")
         );
     }
 
     public void showUserDisconnected(User user) {
         SwingUtilities.invokeLater(() ->
-                messageArea.append("*** " + user.getUsername() + " a quitté le chat ***\n")
+                messageArea.append("*** " + user.getUsername() + " left the chat ***\n")
         );
     }
 
     public void showError(String message) {
         SwingUtilities.invokeLater(() ->
-                JOptionPane.showMessageDialog(this, message, "Erreur", JOptionPane.ERROR_MESSAGE)
+                JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE)
         );
     }
 

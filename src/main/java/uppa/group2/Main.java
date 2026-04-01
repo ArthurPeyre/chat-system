@@ -24,15 +24,15 @@ public class Main {
                 ChatController controller = new ChatController(localUser, view);
                 view.setController(controller);
 
-                view.setTitle("P2P Chat — " + username);
+                view.setTitle("P2P ChatSystem — " + username);
                 view.setVisible(true);
 
                 controller.start();
 
             } catch (UnknownHostException e) {
                 JOptionPane.showMessageDialog(null,
-                        "Impossible de déterminer l'adresse locale : " + e.getMessage(),
-                        "Erreur réseau", JOptionPane.ERROR_MESSAGE);
+                        "Unable to determine local address : " + e.getMessage(),
+                        "Network error", JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -44,7 +44,7 @@ public class Main {
         String username = null;
         while (username == null || username.trim().isEmpty()) {
             username = JOptionPane.showInputDialog(null,
-                    "Entrez votre pseudo :", "Connexion", JOptionPane.QUESTION_MESSAGE);
+                    "Enter your username :", "Connection", JOptionPane.QUESTION_MESSAGE);
             if (username == null) System.exit(0); // Annulation
         }
         return username.trim();
@@ -53,18 +53,18 @@ public class Main {
     private static int promptPort() {
         while (true) {
             String input = JOptionPane.showInputDialog(null,
-                    "Entrez votre port d'écoute :", "Connexion", JOptionPane.QUESTION_MESSAGE);
+                    "Enter your listening port:", "Connection", JOptionPane.QUESTION_MESSAGE);
             if (input == null) System.exit(0); // Annulation
             try {
                 int port = Integer.parseInt(input.trim());
                 if (port >= 1024 && port <= 65535) return port;
                 JOptionPane.showMessageDialog(null,
-                        "Le port doit être compris entre 1024 et 65535.",
-                        "Port invalide", JOptionPane.WARNING_MESSAGE);
+                        "The port must be between 1024 and 65535.",
+                        "Invalid port", JOptionPane.WARNING_MESSAGE);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null,
-                        "Veuillez entrer un nombre valide.",
-                        "Port invalide", JOptionPane.WARNING_MESSAGE);
+                        "Please enter a valid number.",
+                        "Invalid port", JOptionPane.WARNING_MESSAGE);
             }
         }
     }

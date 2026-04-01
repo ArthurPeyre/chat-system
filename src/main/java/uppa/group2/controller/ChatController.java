@@ -117,7 +117,7 @@ public class ChatController {
             Message message = new Message(localUser, recipients, file.getName(), fileData);
             new Client(message, recipients).start();
         } catch (IOException e) {
-            view.showError("Erreur lors de la lecture du fichier : " + e.getMessage());
+            view.showError("Error reading file : " + e.getMessage());
         }
     }
 
