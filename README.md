@@ -1,31 +1,12 @@
 # Chat System
 
-## Structure
+## Compilation instructions
+First, you must have your terminal in the root path of the project.
+When you're in, you can compile the project writting `mvm compile`
+Then, you normally see in the `./target` folder a `.jar` file.
 
-```
-    chat-system/
-    ├── src/main/java/com/chat/
-    │   ├── entity/
-    │   │   ├── User.java
-    │   │   ├── Message.java
-    │   │   └── ChatRoom.java
-    │   │
-    │   ├── ClientMain.java
-    │   ├── ServerMain.java
-    │   │
-    │   ├── viewmodel/
-    │   │   ├── MessageViewModel.java
-    │   │   └── UserViewModel.java
-    │   │
-    │   ├── server/
-    │   │   ├── ChatServer.java
-    │   │   └── ClientHandler.java
-    │   │
-    │   ├── client/
-    │   │   ├── ChatClient.java
-    │   │   └── ConsoleUI.java
-    │   │
-    │   └── service/
-    │       ├── MessageService.java
-    │       └── UserService.java
-```
+## Execution instructions
+Now, you can launch several instance of the ChatSystem App running `java -jar target/project-name.jar` each time.
+
+## Dependencies and requirements
+You will need Maven to compile te project and the lastest version of Java (Java 25).
