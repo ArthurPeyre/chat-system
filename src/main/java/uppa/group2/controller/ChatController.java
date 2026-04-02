@@ -31,10 +31,6 @@ public class ChatController {
         this.server = new Server(localUser.getPort(), this);
     }
 
-    // -------------------------
-    // Démarrage
-    // -------------------------
-
     public void start() {
         server.start();
         new DiscoveryListener(6000, this).start();
@@ -51,17 +47,11 @@ public class ChatController {
                 connectedUsers.add(u);
             }
         }
-        // Ajouter aussi le pair découvert lui-même s'il n'est pas déjà dans la liste
         if (!connectedUsers.contains(user)) {
             connectedUsers.add(user);
         }
         view.showConnectedUsers(connectedUsers);
     }
-
-
-    // -------------------------
-    // Handlers (appelés par Server)
-    // -------------------------
 
     // Un nouveau pair se connecte : on lui renvoie la liste, on l'ajoute, on informe la view
     public void handleConnect(User user, ObjectOutputStream out) {
@@ -73,7 +63,7 @@ public class ChatController {
             List<User> listToSend = connectedUsers.stream()
                     .filter(u -> !u.equals(localUser))
                     .collect(java.util.stream.Collectors.toList());
-            System.out.println(">>> Envoi liste : " + listToSend); // ← ajoute ce log
+            System.out.println(">>> Envoi liste : " + listToSend);
             out.writeObject(listToSend);
             out.flush();
         } catch (IOException e) {
@@ -100,10 +90,6 @@ public class ChatController {
         }
     }
 
-    // -------------------------
-    // Actions utilisateur (appelées par la View)
-    // -------------------------
-
     // Envoie un message à un ou plusieurs destinataires
     public void sendMessage(String content, List<User> recipients) {
         Message message = new Message(localUser, recipients, content, Message.Type.TEXT);
@@ -127,9 +113,6 @@ public class ChatController {
         server.stopServer();
     }
 
-    // -------------------------
-    // Utilitaires
-    // -------------------------
 
     private void broadcastSystemMessage(Message.Type type) {
         Message msg = new Message(localUser, new ArrayList<>(connectedUsers), "", type);

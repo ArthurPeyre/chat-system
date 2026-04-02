@@ -26,7 +26,7 @@ public class ChatView extends JFrame {
     public ChatView() {
         super("P2P Chat");
 
-        // -- Liste des utilisateurs connectés (gauche) --
+        // Connected Users List
         userListModel = new DefaultListModel<>();
         userList = new JList<>(userListModel);
         userList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -34,14 +34,14 @@ public class ChatView extends JFrame {
         JScrollPane userScroll = new JScrollPane(userList);
         userScroll.setPreferredSize(new Dimension(200, 0));
 
-        // -- Zone d'affichage des messages (centre) --
+        // Messages area
         messageArea = new JTextArea();
         messageArea.setEditable(false);
         messageArea.setLineWrap(true);
         messageArea.setWrapStyleWord(true);
         JScrollPane messageScroll = new JScrollPane(messageArea);
 
-        // -- Zone de saisie et bouton d'envoi (bas) --
+        // Inputs & buttons area
         messageField = new JTextField();
         sendButton = new JButton("Send");
         sendButton.addActionListener(e -> handleSend());
@@ -57,13 +57,13 @@ public class ChatView extends JFrame {
 
         inputPanel.add(fileButton, BorderLayout.WEST);
 
-        // -- Layout général --
-        setLayout(new BorderLayout(5, 5));
+        // General layout
+        setLayout(new BorderLayout(2, 2));
         add(userScroll, BorderLayout.WEST);
         add(messageScroll, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.SOUTH);
 
-        // -- Fenêtre --
+        // Window
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -80,9 +80,10 @@ public class ChatView extends JFrame {
         this.controller = controller;
     }
 
-    // -------------------------
-    // Actions utilisateur
-    // -------------------------
+
+
+
+
 
     private void handleSend() {
         String content = messageField.getText().trim();
@@ -123,9 +124,8 @@ public class ChatView extends JFrame {
         controller.sendFile(file, recipients);
     }
 
-    // -------------------------
-    // Méthodes appelées par le Controller
-    // -------------------------
+
+
 
     public void showConnectedUsers(List<User> users) {
         SwingUtilities.invokeLater(() -> {
